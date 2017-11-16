@@ -9,7 +9,7 @@ class: center, middle, inverse
 ### principles of object-oriented design
 
 <br><br><br><br><br><br><br>
-### February 17, 2017
+### November 13, 2017
 ### Rocco Palladino
 
 ---
@@ -187,7 +187,7 @@ background-image: url(images/OpenClosedPrinciple2_2C596E17.jpg)
 ```
 class Responder
 {
-    public function respond(Response $response)
+    public function send(Response $response)
     {
         header("Content-Type: text/html");
         echo $response->getContent();
@@ -200,7 +200,7 @@ class Responder
 New requirement: API needs to respond with JSON
 
 ```
-    public function respond(Response $response)
+    public function send(Response $response)
     {
         if ($response->getType() == 'json') {
             header("Content-Type: application/json");
@@ -219,7 +219,7 @@ New requirement: API needs to respond with JSON
 
 ```
 class Responder {
-    public function respond(Response $response) {
+    public function send(Response $response) {
         header("Content-Type: {$response->getContentType()}");
         echo $response->getContent();
     }
@@ -290,7 +290,7 @@ Our responder example:
 
 ```
 class Responder {
-    public function respond(Response $response) {
+    public function send(Response $response) {
         header("Content-Type: {$response->getContentType()}");
         echo $response->getContent();
     }
@@ -321,7 +321,7 @@ $html = new HtmlResponse()
 $html->setContent('Hello, world.');
 
 $responder = new Responder();
-$responder->respond($html);
+$responder->send($html);
 ```
 --
 
@@ -337,7 +337,7 @@ $json = new JsonResponse();
 $json->setContent($user);
 
 $responder = new Responder();
-$responder->respond($json);
+$responder->send($json);
 ```
 --
 
@@ -359,7 +359,7 @@ abstract class Response {
 }
 
 class Responder {
-    public function respond(Response $response) {
+    public function send(Response $response) {
         header("Content-Type: {$response->getContentType()}");
 
         if ($response instanceof JsonResponse) {
@@ -381,7 +381,7 @@ class Responder {
 
 ```
 class Responder {
-    public function respond(Response $response) {
+    public function send(Response $response) {
         header("Content-Type: {$response->getContentType()}");
         echo $response->getContent();
     }
@@ -406,7 +406,7 @@ class JsonResponse extends Response {
 
 ```
 class Responder {
-    public function respond(Response $response) {
+    public function send(Response $response) {
         header("Content-Type: {$response->getContentType()}");
         echo $response->getContent();
     }
@@ -544,7 +544,7 @@ Recall our original responder example:
 
 ```
 class Responder {
-    public function respond(HtmlResponse $response) {
+    public function send(HtmlResponse $response) {
         header("Content-Type: text/html");
         echo $response->getContent();
     }
@@ -568,7 +568,7 @@ class HtmlResponse {
 
 ```
 class Responder {
-    public function respond(Response $response) {
+    public function send(Response $response) {
         header("Content-Type: $response->getContentType()");
         echo $response->getContent();
     }
